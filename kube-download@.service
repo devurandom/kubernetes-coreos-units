@@ -1,0 +1,17 @@
+[Unit]
+Description=Download Kubernetes v%i
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+Requires=network.target
+After=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/mkdir -p /opt/share /opt/bin /opt/share/kubernetes-%i /opt/share/kubernetes-server-%i
+ExecStart=/usr/bin/curl --fail --location --remote-time --output /opt/share/kubernetes-%i.tar.gz https://github.com/GoogleCloudPlatform/kubernetes/releases/download/v%i/kubernetes.tar.gz
+ExecStart=/usr/bin/tar -xzf /opt/share/kubernetes-%i.tar.gz -C /opt/share/kubernetes-%i
+ExecStart=/usr/bin/tar -xzf /opt/share/kubernetes-%i/kubernetes/server/kubernetes-server-linux-amd64.tar.gz -C /opt/share/kubernetes-server-%i
+ExecStart=/usr/bin/rsync -a /opt/share/kubernetes-server-%i/kubernetes/server/bin/ /opt/bin/
+
+[X-Fleet]
+Global=true
