@@ -1,12 +1,10 @@
 [Unit]
-Description=Kubernetes Proxy
+Description=Kubernetes Proxy v%i
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
-Requires=kube-apiserver.service
-After=kube-apiserver.service
 
 [Service]
 EnvironmentFile=/etc/kube-config.env
-ExecStartPre=/opt/bin/curl-update-binary /opt/bin/kube-proxy https://storage.googleapis.com/kubernetes-release/release/v0.20.2/bin/linux/amd64/kube-proxy
+ExecStartPre=/opt/bin/curl-update-binary /opt/bin/kube-proxy https://storage.googleapis.com/kubernetes-release/release/v%i/bin/linux/amd64/kube-proxy
 ExecStart=/opt/bin/kube-proxy \
   --v=3 \
   --logtostderr=true \

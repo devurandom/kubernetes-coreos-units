@@ -1,12 +1,12 @@
 [Unit]
-Description=Kubernetes Controller Manager
+Description=Kubernetes Controller Manager v%i
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
-Requires=kube-apiserver.service
-After=kube-apiserver.service
+Requires=kube-apiserver@%i.service
+After=kube-apiserver@%i.service
 
 [Service]
 EnvironmentFile=/etc/kube-config.env
-ExecStartPre=/opt/bin/curl-update-binary /opt/bin/kube-controller-manager https://storage.googleapis.com/kubernetes-release/release/v0.20.2/bin/linux/amd64/kube-controller-manager
+ExecStartPre=/opt/bin/curl-update-binary /opt/bin/kube-controller-manager https://storage.googleapis.com/kubernetes-release/release/v%i/bin/linux/amd64/kube-controller-manager
 ExecStart=/opt/bin/kube-controller-manager \
   --v=3 \
   --logtostderr=true \
@@ -16,4 +16,4 @@ Restart=always
 RestartSec=10
 
 [X-Fleet]
-MachineOf=kube-apiserver.service
+MachineOf=kube-apiserver@%i.service

@@ -1,12 +1,12 @@
 [Unit]
-Description=Kubernetes API Server
+Description=Kubernetes API Server v%i
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 Requires=etcd2.service generate-serviceaccount-key.service
 After=etcd2.service generate-serviceaccount-key.service
 
 [Service]
 EnvironmentFile=/etc/kube-config.env
-ExecStartPre=/opt/bin/curl-update-binary /opt/bin/kube-apiserver https://storage.googleapis.com/kubernetes-release/release/v0.20.2/bin/linux/amd64/kube-apiserver
+ExecStartPre=/opt/bin/curl-update-binary /opt/bin/kube-apiserver https://storage.googleapis.com/kubernetes-release/release/v%i/bin/linux/amd64/kube-apiserver
 ExecStart=/opt/bin/kube-apiserver \
   --v=3 \
   --logtostderr=true \

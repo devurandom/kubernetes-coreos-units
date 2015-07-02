@@ -1,0 +1,18 @@
+[Unit]
+Description=Kubernetes Scheduler v%i
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+Requires=kube-apiserver@%i.service
+After=kube-apiserver@%i.service
+
+[Service]
+EnvironmentFile=/etc/kube-config.env
+ExecStartPre=/opt/bin/curl-update-binary /opt/bin/kube-scheduler https://storage.googleapis.com/kubernetes-release/release/v%i/bin/linux/amd64/kube-scheduler
+ExecStart=/opt/bin/kube-scheduler \
+  --v=3 \
+  --logtostderr=true \
+  --master=http://127.0.0.1:${KUBE_MASTER_PORT}
+Restart=always
+RestartSec=10
+
+[X-Fleet]
+MachineOf=kube-apiserver@%i.service
